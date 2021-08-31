@@ -60,6 +60,7 @@ These options are defined as enum package constants for easy using.
 And two more:
 
 `reverse` – bool flag to choose reverse sorting order if needed.
+
 `top` – int count of top result to return.
 
 ## Benchmarking
