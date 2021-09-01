@@ -259,6 +259,11 @@ func Test_getSortedKeysSliceFromMap(t *testing.T) {
 			wantRes: nil,
 			wantErr: true,
 		},
+		{
+			name:      "17_not_map_error",
+			mapToSort: 1,
+			wantErr:   true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -272,6 +277,57 @@ func Test_getSortedKeysSliceFromMap(t *testing.T) {
 			}
 		})
 	}
+}
+
+func Test_sorter_Sort(t *testing.T) {
+	mapToSort := map[string]string{
+		"a":    "1",
+		"ab":   "22",
+		"abcd": "22",
+		"abc":  "333",
+	}
+	t.Run("01_struct_Sort()", func(t *testing.T) {
+		got, err := Map(mapToSort).
+			ByValues().
+			ByKeys().
+			AsString().
+			AsInt().
+			AsFloat().
+			AsDatetime().
+			AsStringByLength().
+			Reverse().Forward().
+			Top(1).All().
+			Sort()
+
+		if err != nil {
+			t.Errorf("sorter.Sort() error = %v", err)
+			return
+		}
+		want := []interface{}{"a", "ab", "abc", "abcd"}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("sorter.Sort() = %v, want %v", got, want)
+		}
+	})
+	t.Run("02_struct_MustSort()_panic", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Errorf("MustSort did not panic")
+			}
+		}()
+		Map(mapToSort).
+			AsFloat().
+			MustSort()
+	})
+	t.Run("03_struct_MustSort()_not_panic", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("MustSort did panic but should not: %v", r)
+			}
+		}()
+		Map(mapToSort).
+			AsString().
+			MustSort()
+	})
 }
 
 // Benchmarking with boilerplate sorting

@@ -168,3 +168,45 @@ func Sort(mapToSortInterface interface{}, sortBy By,
 	}
 	return
 }
+
+type sorter struct {
+	mapToSort interface{}
+	by        By
+	as        As
+	reverse   bool
+	top       int
+}
+
+func Map(mapToSort interface{}) *sorter {
+	return &sorter{
+		mapToSort: mapToSort,
+		by:        ByKeys,
+		as:        AsString,
+		reverse:   false,
+		top:       -1,
+	}
+}
+
+func (s *sorter) Sort() ([]interface{}, error) {
+	return Sort(s.mapToSort, s.by, s.as, s.reverse, s.top)
+}
+
+func (s *sorter) MustSort() []interface{} {
+	res, err := Sort(s.mapToSort, s.by, s.as, s.reverse, s.top)
+	if err != nil {
+		panic(err)
+	}
+	return res
+}
+
+func (s *sorter) ByKeys() *sorter           { s.by = ByKeys; return s }
+func (s *sorter) ByValues() *sorter         { s.by = ByValues; return s }
+func (s *sorter) AsString() *sorter         { s.as = AsString; return s }
+func (s *sorter) AsStringByLength() *sorter { s.as = AsStringByLength; return s }
+func (s *sorter) AsInt() *sorter            { s.as = AsInt; return s }
+func (s *sorter) AsFloat() *sorter          { s.as = AsFloat; return s }
+func (s *sorter) AsDatetime() *sorter       { s.as = AsDatetime; return s }
+func (s *sorter) Forward() *sorter          { s.reverse = false; return s }
+func (s *sorter) Reverse() *sorter          { s.reverse = true; return s }
+func (s *sorter) Top(top int) *sorter       { s.top = top; return s }
+func (s *sorter) All() *sorter              { s.top = -1; return s }

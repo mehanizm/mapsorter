@@ -23,4 +23,9 @@ func main() {
 	// >> 4
 	// >> 3
 	// >> 2
+
+	for _, key := range mapsorter.Map(in).ByValues().AsStringByLength().Reverse().Top(1).MustSort() {
+		fmt.Println(key)
+	}
+	// >> 4
 }
