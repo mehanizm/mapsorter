@@ -6,12 +6,12 @@ Mapsorter
 [![codecov](https://codecov.io/gh/mehanizm/mapsorter/branch/master/graph/badge.svg)](https://codecov.io/gh/mehanizm/mapsorter)
 [![Go Report](https://goreportcard.com/badge/github.com/mehanizm/mapsorter)](https://goreportcard.com/badge/github.com/mehanizm/mapsorter)
 
-Golang map sorter that frees you of writing boilerplate sorting code every time
+Golang map sorter that frees you of writing boilerplate sorting code each time
 
-When can it be useful? Imagine, you have a map with data and want to get keys slice that:
+When can it be useful? Imagine, you have a map with the data and want to get slice of its keys that:
 
-* in order of keys by string length, string value, datetime, int or float converted from strings or as native types;
-* in order of values by string length, string value, datetime, int or float converted from strings or as native types;
+* ordered of keys by string length, string value, datetime, int or float converted from strings or as native types;
+* ordered of values by string length, string value, datetime, int or float converted from strings or as native types;
 * in reverse order or only top N of the sorted results.
 
 Not clear enough? See examples below.
@@ -35,7 +35,7 @@ go get github.com/mehanizm/mapsorter
 
 ## Basic usage
 
-You can see an example in cmd/main.go
+You can see working examples in `cmd/main.go` or in the tests.
 
 The lib has two different api. Please, use whichever is more convenient for you.
 
